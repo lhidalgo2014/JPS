@@ -1,10 +1,12 @@
 import './App.css';
-import { addStorteo } from './database'
+import { transactAccountMoney, registerSorteo, getSorteos } from './database'
 
 function App() {
   return (
     <div className="App">
-      <button onClick={addStorteo}> Save to database </button>
+      <button onClick={() => transactAccountMoney('chances', 'deposit', 1500)}> transactAccountMoney </button>
+      <button onClick={() => registerSorteo('chances', [])}> registerSorteo </button>
+      <button onClick={() => getSorteos()}> getSorteos </button>
     </div>
   );
 }
