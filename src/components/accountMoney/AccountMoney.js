@@ -7,13 +7,18 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 class AccountMoney extends React.Component {
     state = {
         total: 10000,
         value: 100,
         sorteoTypeList: ["chances", "loteria", "lotto"],
-        sorteo: "chances"
+        sorteo: "chances",
+        snackbarState: false
     }
 
     handleUserType = (event) => {
@@ -29,6 +34,21 @@ class AccountMoney extends React.Component {
 
     updateTotal = () => {
         return this.state.total + parseInt(this.state.value)
+    }
+
+    showSnackbar = () => {
+        this.setState({snackbarState: true})
+    }
+
+    closeSnackbar = () => {
+        this.setState({snackbarState: false})
+    }
+
+    save = () => {
+        if(transactAccountMoney(this.state.sorteo, 'deposit', this.state.total + this.state.value)) {
+            this.showSnackbar()
+        }
+        this.showSnackbar()
     }
 
     render() {
@@ -83,8 +103,26 @@ class AccountMoney extends React.Component {
 
                 <div style={{  }} className="Bottom-container">
                     <Button style={{ margin:"8px", color: "#697288", fontFamily: "Roboto", fontWeight: "400" }}>Cancelar</Button>
-                    <Button onClick={() => transactAccountMoney(this.state.sorteo, 'deposit', this.state.total + this.state.value)} style={{ margin:"8px", color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
+                    <Button onClick={this.save}  style={{ margin:"8px", color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
                 </div>
+
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.snackbarState}
+                    autoHideDuration={1000}
+                    onClose={this.closeSnackbar}
+                    message="Depósito realizado correctamente"
+                    action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={this.closeSnackbar}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                    }
+                />
             </div>
         )
     }
