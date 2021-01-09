@@ -18,7 +18,8 @@ class AccountMoney extends React.Component {
         value: 100,
         sorteoTypeList: ["chances", "loteria", "lotto"],
         sorteo: "chances",
-        snackbarState: false
+        snackbarState: false,
+        snackbarMessage: ""
     }
 
     handleUserType = (event) => {
@@ -36,8 +37,9 @@ class AccountMoney extends React.Component {
         return this.state.total + parseInt(this.state.value)
     }
 
-    showSnackbar = () => {
+    showSnackbar = (message) => {
         this.setState({snackbarState: true})
+        this.setState({snackbarMessage: message})
     }
 
     closeSnackbar = () => {
@@ -46,9 +48,8 @@ class AccountMoney extends React.Component {
 
     save = () => {
         if(transactAccountMoney(this.state.sorteo, 'deposit', this.state.total + this.state.value)) {
-            this.showSnackbar()
-        }
-        this.showSnackbar()
+            this.showSnackbar("Depósito realizado correctamente")
+        } else this.showSnackbar("Error el realizar depósito")
     }
 
     render() {
@@ -114,7 +115,7 @@ class AccountMoney extends React.Component {
                     open={this.state.snackbarState}
                     autoHideDuration={1000}
                     onClose={this.closeSnackbar}
-                    message="Depósito realizado correctamente"
+                    message={this.state.snackbarMessage}
                     action={
                     <React.Fragment>
                         <IconButton size="small" aria-label="close" color="inherit" onClick={this.closeSnackbar}>
