@@ -19,8 +19,8 @@ export async function transactAccountMoney(account, transaction, amount) {
 
 // Register component
 export async function registerSorteo(type, prizeList) {
-  var doc = db.collection("sorteo")
-  await doc.add({
+  var collRef = db.collection("sorteo")
+  await collRef.add({
     "type": type,
     "state": "sorteando",
     "date": new Date(),
@@ -34,8 +34,8 @@ export async function registerSorteo(type, prizeList) {
 
 // Search component
 export async function getSorteos() {
-  var doc = db.collection("sorteo").where("state", "==", "sorteando")
-  await doc.get()
+  var collRef = db.collection("sorteo").where("state", "==", "sorteando")
+  await collRef.get()
   .then((querySnapshot) => {
     let docs = []
     querySnapshot.forEach(function (doc) {
@@ -48,5 +48,15 @@ export async function getSorteos() {
     return docs
   }).catch((err) => {
     return []
+  });
+}
+
+// Create sorteo component
+export async function createSorteo(docUID) {
+  var doc = db.collection("sorteo").doc(docUID)
+  await doc.update("state", "sorteado").then(() => {
+    return "Actualizado correctamente"
+  }).catch((err) => {
+    return "Error al sortear"
   });
 }
