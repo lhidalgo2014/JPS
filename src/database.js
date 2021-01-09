@@ -11,9 +11,9 @@ export async function transactAccountMoney(account, transaction, amount) {
       }),
       "total": firebase.firestore.FieldValue.increment(amount)
     }).then(() => {
-      return "Actualizado correctamente"
+      return true
     }).catch((err) => {
-      return "Error al depositar el dinero"
+      return false
     });
 }
 
