@@ -1,3 +1,4 @@
+import { transactAccountMoney } from '../../database'
 import './AccountMoney.css'
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -31,8 +32,6 @@ class AccountMoney extends React.Component {
     }
 
     render() {
-        console.log("State: ", this.state)
-        console.log("Type: ", this.state.sorteo)
         return (
             <div className="Account-money">
                 <div className="Top-bar Top-bar-content">
@@ -45,7 +44,6 @@ class AccountMoney extends React.Component {
                         id="filled-select-currency"
                         style= {{ width: 200, marginRight: 20 }}
                         select
-                        label="Select"
                         value={this.state.sorteo}
                         onChange={this.handleChange}
                         label="Tipo de sorteo"
@@ -85,7 +83,7 @@ class AccountMoney extends React.Component {
 
                 <div style={{  }} className="Bottom-container">
                     <Button style={{ margin:"8px", color: "#697288", fontFamily: "Roboto", fontWeight: "400" }}>Cancelar</Button>
-                    <Button style={{ margin:"8px", color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
+                    <Button onClick={() => transactAccountMoney(this.state.sorteo, 'deposit', this.state.total + this.state.value)} style={{ margin:"8px", color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
                 </div>
             </div>
         )
