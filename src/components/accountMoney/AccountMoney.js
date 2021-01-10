@@ -57,9 +57,6 @@ class AccountMoney extends React.Component {
             <div className="Account-money">
                 <div className="Top-bar Top-bar-content">
                     <h1 className="Text-tittle">Monto total</h1>
-                    {/* <IconButton aria-label="delete" className={classes.margin}>
-                        <CloseIcon />
-                    </IconButton> */}
 
                     <TextField
                         id="filled-select-currency"
@@ -76,6 +73,10 @@ class AccountMoney extends React.Component {
                             </MenuItem>
                         ))}
                     </TextField>
+
+                    <IconButton style={{marginRight:10}} aria-label="delete">
+                        <CloseIcon />
+                    </IconButton>
                 </div>
 
                 <h2 className="Text-subtittle">Depositar fondos</h2>
