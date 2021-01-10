@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
+import AccountMoney from './components/accountMoney/AccountMoney';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AccountMoney />
   </React.StrictMode>,
   document.getElementById('root')
 );
