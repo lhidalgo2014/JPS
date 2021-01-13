@@ -1,0 +1,81 @@
+.Account-money {
+    width: 490px;
+    height: 496px;
+    background-color: white;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 40px #E3E3E3);
+}
+
+.Top-bar {
+    width: 490px;
+    height: 59px;
+    background-color: #F1F3F4;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.Top-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Text-tittle {
+    padding-left: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #697288;
+}
+
+.Text-subtittle {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    
+    color: #697288;
+}
+
+.Input-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F1F3F4;
+    border-radius: 10px;
+    width: 190px;
+    height: 48px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #697288;
+}
+
+.Container {
+    display: block;
+}
+
+.Autoscroll {
+    height: 200px;
+    width: 400px;
+    overflow-y: auto;
+}
+
+.Bottom-container {
+    display: flex;
+    margin-top: 20px;
+    margin-right: 20px;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.Button {
+    color: black;
+}
