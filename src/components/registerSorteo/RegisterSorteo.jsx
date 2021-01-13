@@ -118,7 +118,7 @@ class RegisterSorteo extends React.Component {
                 </Grid>
                 <div className="Bottom-container">
                     <TextField onKeyDown={this.handleKeyDown} style={{width: 190, marginRight: 20}} size="small" label="Monto" variant="filled" />
-                    <Button className="Button" onClick={this.save}  variant="contained">Guardar</Button>
+                    <Button className="Button" onClick={this.save} variant="contained">Guardar</Button>
                 </div>
 
                 <Snackbar
