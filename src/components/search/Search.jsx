@@ -1,4 +1,4 @@
-// import { getSorteos } from '../../database'
+import Typography from '@material-ui/core/Typography';
 import { db } from '../../firebase'
 import React from 'react';
 import './Search.css';
@@ -32,7 +32,9 @@ class Search extends React.Component {
             .then(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => doc.data());
                 this.setState({prizesDetail: data})
-                console.log(this.state.prizesDetail)
+                if(this.state.prizesDetail.length > 0) {
+                    this.setState({currentPrize: this.state.prizesDetail[0]})
+                }
             })
     } 
 
@@ -40,17 +42,12 @@ class Search extends React.Component {
         this.setState({prizesDetail: data})
     }
 
-    getType = (prizeDetail) => {
-        if(prizeDetail.length > 0) {
-            return "aa"
-        } else return "tipo"
-    }
-
     handleClick = (event) => {
         this.setState({anchorEl: event.currentTarget})
     };
     
-    handleClose = () => {
+    handleMenuItemClick = (event, index) => {
+        this.setState({currentPrize: this.state.prizesDetail[index]})
         this.setState({anchorEl: null})
     }
     
@@ -85,17 +82,21 @@ class Search extends React.Component {
                         </Grid>
 
                         <Grid item xs={2}>
-                            { this.state.currentPrize.type }
+                            <Typography noWrap variant="body2" gutterBottom>
+                                { this.state.currentPrize.type }
+                            </Typography>
                         </Grid>
 
                         <Grid item xs={4}>
-                            { this.state.currentPrize.date }
+                            <Typography noWrap variant="body2" gutterBottom>
+                                { this.getFormattedDate(this.state.currentPrize.date) }
+                            </Typography>
                         </Grid>
 
                         <Grid item xs={4}>
-                            {
-                                // this.getFormattedPrize(this.state.prizesDetail)
-                            }
+                            <Typography noWrap variant="body2" gutterBottom>
+                                { this.getFormattedPrizeList(this.state.currentPrize.prizeList) }
+                            </Typography>
                         </Grid>
 
                         <Grid item xs={1}>
@@ -104,7 +105,6 @@ class Search extends React.Component {
                             </IconButton>
                         </Grid>
                     </Grid>
-                    
                 </Button>
 
                 <Menu
@@ -115,30 +115,29 @@ class Search extends React.Component {
                     onClose={this.handleClose}>
                         {
                             this.state.prizesDetail.map((prizeDetail, index) => (
-                                <Grid key={index} className="Text" container alignItems="center" spacing={3}>
-                                    <Grid item xs={2}>
-                                        {
-                                            prizeDetail.type
-                                        }
-                                    </Grid>
+                                <MenuItem onClick={(event) => this.handleMenuItemClick(event, index)}>
+                                    <Grid key={index} className="Text" container alignItems="center" spacing={3}>
+                                        <Grid item xs={4}>
+                                            <Typography noWrap variant="body2" gutterBottom>
+                                                { prizeDetail.type }
+                                            </Typography>
+                                        </Grid>
 
-                                    <Grid item xs={4}>
-                                        {
-                                            this.getFormattedDate(prizeDetail.date)
-                                        }
-                                    </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography noWrap variant="body2" gutterBottom>
+                                                { this.getFormattedDate(prizeDetail.date) }
+                                            </Typography>
+                                        </Grid>
 
-                                    <Grid item xs={4}>
-                                        {
-                                            this.getFormattedPrizeList(prizeDetail.prizeList)
-                                        }
+                                        <Grid item xs={4}>
+                                            <Typography noWrap variant="body2" gutterBottom>
+                                                { this.getFormattedPrizeList(prizeDetail.prizeList) }
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </MenuItem>
                             ))
                         }
-                    <MenuItem onClick={this.handleClose}>Profileaaaaaaaaaaaaaaaaaaaaaaa</MenuItem>
-                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                 </Menu>
             </div>
         )
