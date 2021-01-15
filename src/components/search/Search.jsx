@@ -30,7 +30,12 @@ class Search extends React.Component {
         var collRef = db.collection("sorteo").where("state", "==", "sorteando")
         await collRef.get()
             .then(querySnapshot => {
-                const data = querySnapshot.docs.map(doc => doc.data());
+                const data = querySnapshot.docs.map(doc => {
+                    const tempData = doc.data()
+                    tempData.id = doc.id
+                    return tempData
+                });
+                console.log(data)
                 this.setState({prizesDetail: data})
                 if(this.state.prizesDetail.length > 0) {
                     this.setState({currentPrize: this.state.prizesDetail[0]})
