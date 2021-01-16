@@ -18,17 +18,27 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 class App extends React.Component {
 
   state = {
     openRegisterSorteo: false,
     openCreateSorteo: false,
+    openAccountMoney: false,
     currentSelectedSorteo: {
       type: "tipo",
       date: "fecha",
       prizeList: []
     }
+  }
+
+  handleOpenDialogAccountMoney = () => {
+    this.setState({openAccountMoney: true})
+  }
+
+  handleCloseDialogAccountMoney = () => {
+    this.setState({openAccountMoney: false})
   }
 
   handleOpenDialogRegisterSorteo = () => {
@@ -66,8 +76,11 @@ class App extends React.Component {
               <Grid item xs={2}>
                 <Button onClick={this.handleOpenDialogCreateSorteo} variant="contained">Sortear</Button>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={8}>
                 <Search parentCallback={this.changeCurrentSorteo}/>
+              </Grid>
+              <Grid item xs={2}>
+                <Button startIcon={<AttachMoneyIcon />} onClick={this.handleOpenDialogAccountMoney} variant="contained">Despositar</Button>
               </Grid>
             </Grid>
             
@@ -118,6 +131,10 @@ class App extends React.Component {
         
         <Dialog open={this.state.openCreateSorteo} onClose={this.handleCloseDialogCreateSorteo} aria-labelledby="form-dialog-title">
           <CreateSorteo object={this.state.currentSelectedSorteo} parentCallback={this.handleCloseDialogCreateSorteo}/>
+        </Dialog>
+
+        <Dialog open={this.state.openAccountMoney} onClose={this.handleCloseDialogAccountMoney} aria-labelledby="form-dialog-title">
+          <AccountMoney parentCallback={this.handleCloseDialogAccountMoney}/>
         </Dialog>
 
       </div>

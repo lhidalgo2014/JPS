@@ -22,6 +22,10 @@ class CreateSorteo extends React.Component {
         snackbarMessage: ""
     }
 
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
     componentDidMount() {
         this.setState({prizeObject: this.props.object})
     }
@@ -41,7 +45,23 @@ class CreateSorteo extends React.Component {
     }
 
     save = (event) => {
-        if(createSorteo(this.state.prizeObject.id)) {
+        var winnerNumber = [
+            {
+                number: this.getRandomInt(100),
+                serie: this.getRandomInt(1000)
+            },
+            {
+                number: this.getRandomInt(100),
+                serie: this.getRandomInt(1000)
+            },
+            {
+                number: this.getRandomInt(100),
+                serie: this.getRandomInt(1000)
+            }
+        ]
+        console.log("Winner number")
+        console.log(winnerNumber)
+        if(createSorteo(this.state.prizeObject.id, winnerNumber)) {
             this.showSnackbar("Sorteo creado correctamente")
             this.close(event)
         } else this.showSnackbar("Error al crear sorteo")
