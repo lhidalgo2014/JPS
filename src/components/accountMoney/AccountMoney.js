@@ -29,7 +29,7 @@ class AccountMoney extends React.Component {
         else this.setState({value: parseInt(event.target.value)})
     }
 
-    handleChange = (event) => {
+    handleChangeSorteo = (event) => {
         this.setState({sorteo: event.target.value})
     }
 
@@ -63,7 +63,7 @@ class AccountMoney extends React.Component {
                         style= {{ width: 200, marginRight: 20 }}
                         select
                         value={this.state.sorteo}
-                        onChange={this.handleChange}
+                        onChange={this.handleChangeSorteo}
                         label="Tipo de sorteo"
                         variant="filled"
                         >

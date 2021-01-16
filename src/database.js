@@ -18,12 +18,12 @@ export async function transactAccountMoney(account, transaction, amount) {
 }
 
 // Register component
-export async function registerSorteo(type, prizeList) {
+export async function registerSorteo(type, prizeList, date) {
   var collRef = db.collection("sorteo")
   await collRef.add({
     "type": type,
     "state": "sorteando",
-    "date": new Date(),
+    "date": date,
     "prizeList": prizeList
   }).then(() => {
     return "Actualizado correctamente"
@@ -36,16 +36,9 @@ export async function registerSorteo(type, prizeList) {
 export async function getSorteos() {
   var collRef = db.collection("sorteo").where("state", "==", "sorteando")
   await collRef.get()
-  .then((querySnapshot) => {
-    let docs = []
-    querySnapshot.forEach(function (doc) {
-      const tempDoc = doc.data()
-      tempDoc.id = doc.id
-
-      docs.push(tempDoc)
-    });
-    console.log(docs)
-    return docs
+  .then(querySnapshot => {
+    const data = querySnapshot.docs.map(doc => doc.data());
+    return data
   }).catch((err) => {
     return []
   });
