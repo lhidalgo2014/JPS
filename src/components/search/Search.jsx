@@ -57,6 +57,7 @@ class Search extends React.Component {
     }
     
     getFormattedDate(date) {
+        console.log("DATE: " + date)
         return new Date(date.seconds).toDateString();
     }
 
