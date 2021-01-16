@@ -27,15 +27,14 @@ class Search extends React.Component {
     }
 
     async componentDidMount() {
-        var collRef = db.collection("sorteo").where("state", "==", "sorteando")
-        await collRef.get()
-            .then(querySnapshot => {
+        db.collection("sorteo").where("state", "==", "sorteando")
+            .onSnapshot(querySnapshot => {
+                console.log("LOADING DATA")
                 const data = querySnapshot.docs.map(doc => {
                     const tempData = doc.data()
                     tempData.id = doc.id
                     return tempData
                 });
-                console.log(data)
                 this.setState({prizesDetail: data})
                 if(this.state.prizesDetail.length > 0) {
                     this.setState({currentPrize: this.state.prizesDetail[0]})
@@ -52,12 +51,13 @@ class Search extends React.Component {
     };
     
     handleMenuItemClick = (event, index) => {
-        this.setState({currentPrize: this.state.prizesDetail[index]})
-        this.setState({anchorEl: null})
+        this.setState({currentPrize: this.state.prizesDetail[index]});
+        this.setState({anchorEl: null});
+        this.props.parentCallback(this.state.prizesDetail[index]);
+        event.preventDefault();
     }
     
     getFormattedDate(date) {
-        console.log("DATE: " + date)
         return new Date(date.seconds).toDateString();
     }
 
@@ -121,8 +121,8 @@ class Search extends React.Component {
                     onClose={this.handleClose}>
                         {
                             this.state.prizesDetail.map((prizeDetail, index) => (
-                                <MenuItem onClick={(event) => this.handleMenuItemClick(event, index)}>
-                                    <Grid key={index} className="Text" container alignItems="center" spacing={3}>
+                                <MenuItem key={index} onClick={(event) => this.handleMenuItemClick(event, index)}>
+                                    <Grid className="Text" container alignItems="center" spacing={3}>
                                         <Grid item xs={4}>
                                             <Typography noWrap variant="body2" gutterBottom>
                                                 { prizeDetail.type }

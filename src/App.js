@@ -22,15 +22,34 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class App extends React.Component {
 
   state = {
-    openRegisterSorteo: false
+    openRegisterSorteo: false,
+    openCreateSorteo: false,
+    currentSelectedSorteo: {
+      type: "tipo",
+      date: "fecha",
+      prizeList: []
+    }
   }
 
-  handleOpenDialog = () => {
+  handleOpenDialogRegisterSorteo = () => {
     this.setState({openRegisterSorteo: true})
   }
 
-  handleCloseDialog = () => {
+  handleCloseDialogRegisterSorteo = () => {
     this.setState({openRegisterSorteo: false})
+  }
+
+  handleOpenDialogCreateSorteo = () => {
+    this.setState({openCreateSorteo: true})
+  }
+
+  handleCloseDialogCreateSorteo = () => {
+    this.setState({openCreateSorteo: false})
+  }
+
+  changeCurrentSorteo = (data) => {
+  
+    this.setState({currentSelectedSorteo: data})
   }
 
   render () {
@@ -45,10 +64,10 @@ class App extends React.Component {
           <Grid item xs={8}>
             <Grid container direction="row" justify="space-between" alignItems="center">
               <Grid item xs={2}>
-                <Button variant="contained">Sortear</Button>
+                <Button onClick={this.handleOpenDialogCreateSorteo} variant="contained">Sortear</Button>
               </Grid>
               <Grid item xs={10}>
-                <Search/>
+                <Search parentCallback={this.changeCurrentSorteo}/>
               </Grid>
             </Grid>
             
@@ -87,13 +106,18 @@ class App extends React.Component {
         </div>
 
         <div className="Fab">
-          <Fab onClick={this.handleOpenDialog} style={{color: 'white',  backgroundColor: "#009688"}} aria-label="add">
+          <Fab onClick={this.handleOpenDialogRegisterSorteo} style={{color: 'white',  backgroundColor: "#009688"}} aria-label="add">
             <AddIcon />
           </Fab>
         </div>
 
-        <Dialog open={this.state.openRegisterSorteo} onClose={this.handleCloseDialog} aria-labelledby="form-dialog-title">
-          <RegisterSorteo parentCallback={this.handleCloseDialog} />
+        <Dialog open={this.state.openRegisterSorteo} onClose={this.handleCloseDialogRegisterSorteo} aria-labelledby="form-dialog-title">
+          <RegisterSorteo parentCallback={this.handleCloseDialogRegisterSorteo} />
+        </Dialog>
+
+        
+        <Dialog open={this.state.openCreateSorteo} onClose={this.handleCloseDialogCreateSorteo} aria-labelledby="form-dialog-title">
+          <CreateSorteo object={this.state.currentSelectedSorteo} parentCallback={this.handleCloseDialogCreateSorteo}/>
         </Dialog>
 
       </div>

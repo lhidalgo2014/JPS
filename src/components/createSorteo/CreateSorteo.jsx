@@ -16,10 +16,14 @@ class CreateSorteo extends React.Component {
             id: "",
             type: "tipo",
             date: "fecha",
-            prizeList: [1,2,3]
+            prizeList: []
         },
         snackbarState: false,
         snackbarMessage: ""
+    }
+
+    componentDidMount() {
+        this.setState({prizeObject: this.props.object})
     }
 
     showSnackbar = (message) => {
@@ -31,13 +35,15 @@ class CreateSorteo extends React.Component {
         this.setState({snackbarState: false})
     }
 
-    cancel = () => {
-
+    close = (event) => {
+        this.props.parentCallback();
+        event.preventDefault();
     }
 
-    save = () => {
+    save = (event) => {
         if(createSorteo(this.state.prizeObject.id)) {
             this.showSnackbar("Sorteo creado correctamente")
+            this.close(event)
         } else this.showSnackbar("Error al crear sorteo")
     }
 
@@ -46,7 +52,7 @@ class CreateSorteo extends React.Component {
     }
 
     getTotal() {
-        return this.state.prizeObject.prizeList.reduce((a, b) => a + b, 0)
+        return this.state.prizeObject.prizeList.reduce((a, b) => Number(a) + Number(b), 0)
     }
 
     render() {
@@ -68,7 +74,7 @@ class CreateSorteo extends React.Component {
                         </Grid>
 
                         <Grid style={{textAlign:"center"}} item xs={2}>
-                            <IconButton aria-label="delete">
+                            <IconButton onClick={this.close} aria-label="delete">
                                 <CloseIcon />
                             </IconButton>
                         </Grid>
@@ -112,8 +118,8 @@ class CreateSorteo extends React.Component {
                 </Grid>
 
                 <div className="Bottom-container">
-                    <Button className="Button" style={{marginRight:10}} onClick={this.cancel}>Cancelar</Button>
-                    <Button className="Button" onClick={this.save} variant="contained">Guardar</Button>
+                    <Button className="Button" style={{marginRight:10}} onClick={this.close}>Cancelar</Button>
+                    <Button className="Button" onClick={this.save}>Confirmar</Button>
                 </div>
 
                 <Snackbar
