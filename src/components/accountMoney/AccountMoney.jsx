@@ -52,6 +52,11 @@ class AccountMoney extends React.Component {
         } else this.showSnackbar("Error el realizar depósito")
     }
 
+    close = (event) => {
+        this.props.parentCallback();
+        event.preventDefault();
+    }
+
     render() {
         return (
             <div className="Account-money">
@@ -74,7 +79,7 @@ class AccountMoney extends React.Component {
                         ))}
                     </TextField>
 
-                    <IconButton style={{marginRight:10}} aria-label="delete">
+                    <IconButton onClick={this.close} aria-label="delete">
                         <CloseIcon />
                     </IconButton>
                 </div>
@@ -104,8 +109,7 @@ class AccountMoney extends React.Component {
                 </div>
 
                 <div style={{  }} className="Bottom-container">
-                    <Button style={{ margin:"8px", color: "#697288", fontFamily: "Roboto", fontWeight: "400" }}>Cancelar</Button>
-                    <Button onClick={this.save}  style={{ margin:"8px", color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
+                    <Button onClick={this.save}  style={{ color: "#FFFF", backgroundColor: "#2F80ED", fontFamily: "Roboto", fontWeight: "400" }} variant="contained" color="primary">Depositar</Button>
                 </div>
 
                 <Snackbar

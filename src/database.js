@@ -45,9 +45,12 @@ export async function getSorteos() {
 }
 
 // Create sorteo component
-export async function createSorteo(docUID) {
+export async function createSorteo(docUID, winnerNumber) {
   var doc = db.collection("sorteo").doc(docUID)
-  await doc.update("state", "sorteado").then(() => {
+  await doc.update({
+    "state": "sorteado",
+    "winnerNumber": winnerNumber
+  }).then(() => {
     return "Actualizado correctamente"
   }).catch((err) => {
     return "Error al sortear"

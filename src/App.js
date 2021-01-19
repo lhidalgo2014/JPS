@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { transactAccountMoney, registerSorteo, getSorteos, createSorteo } from './database'
 import AccountMoney from './components/accountMoney/AccountMoney';
 import RegisterSorteo from './components/registerSorteo/RegisterSorteo';
@@ -12,68 +13,133 @@ import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
-function App() {
-  return (
-    <div className="App">
-      <Grid container direction="row" justify="space-between" alignItems="center">
-        
-        <Grid item xs={2}>
-          <img src="/static/img/jps_logo.png"/>
-        </Grid>
+class App extends React.Component {
 
-        <Grid item xs={8}>
-          <Grid container direction="row" justify="space-between" alignItems="center">
-            <Grid item xs={2}>
-              <Button variant="contained">Sortear</Button>
-            </Grid>
-            <Grid item xs={10}>
-              <Search/>
-            </Grid>
+  state = {
+    openRegisterSorteo: false,
+    openCreateSorteo: false,
+    openAccountMoney: false,
+    currentSelectedSorteo: {
+      type: "tipo",
+      date: "fecha",
+      prizeList: []
+    }
+  }
+
+  handleOpenDialogAccountMoney = () => {
+    this.setState({openAccountMoney: true})
+  }
+
+  handleCloseDialogAccountMoney = () => {
+    this.setState({openAccountMoney: false})
+  }
+
+  handleOpenDialogRegisterSorteo = () => {
+    this.setState({openRegisterSorteo: true})
+  }
+
+  handleCloseDialogRegisterSorteo = () => {
+    this.setState({openRegisterSorteo: false})
+  }
+
+  handleOpenDialogCreateSorteo = () => {
+    this.setState({openCreateSorteo: true})
+  }
+
+  handleCloseDialogCreateSorteo = () => {
+    this.setState({openCreateSorteo: false})
+  }
+
+  changeCurrentSorteo = (data) => {
+  
+    this.setState({currentSelectedSorteo: data})
+  }
+
+  render () {
+    return (
+      <div className="App">
+        <Grid container direction="row" justify="space-between" alignItems="center">
+          
+          <Grid item xs={2}>
+            <img src="https://raw.githubusercontent.com/lhidalgo2014/JPS/6b7e7789d2bd5d4ecd75dba9e0e9a93ab738f03d/src/static/img/jps_logo.svg"/>
           </Grid>
-          
-          
+
+          <Grid item xs={8}>
+            <Grid container direction="row" justify="space-between" alignItems="center">
+              <Grid item xs={2}>
+                <Button onClick={this.handleOpenDialogCreateSorteo} variant="contained">Sortear</Button>
+              </Grid>
+              <Grid item xs={8}>
+                <Search parentCallback={this.changeCurrentSorteo}/>
+              </Grid>
+              <Grid item xs={2}>
+                <Button startIcon={<AttachMoneyIcon />} onClick={this.handleOpenDialogAccountMoney} variant="contained">Despositar</Button>
+              </Grid>
+            </Grid>
+            
+            
+          </Grid>
+
+          <Grid item xs={2}>
+            <IconButton aria-label="delete">
+                <HelpOutlineIcon />
+            </IconButton>
+
+            <IconButton aria-label="delete">
+                <SettingsOutlinedIcon />
+            </IconButton>
+
+            <IconButton aria-label="delete">
+                <AccountCircleOutlinedIcon />
+            </IconButton>
+          </Grid>
         </Grid>
 
-        <Grid item xs={2}>
-          <IconButton aria-label="delete">
-              <HelpOutlineIcon />
-          </IconButton>
-
-          <IconButton aria-label="delete">
-              <SettingsOutlinedIcon />
-          </IconButton>
-
-          <IconButton aria-label="delete">
-              <AccountCircleOutlinedIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
-
-      <div className="Container">
-        <div className="Container-left">
-          a
-        </div>
-
-        <div className="Container-right">
-          <div className="Top-bar-right">
-            <Button>Consultar</Button>
+        <div className="Container">
+          <div className="Container-left">
+            a
           </div>
 
-          <div>
+          <div className="Container-right">
+            <div className="Top-bar-right">
+              <Button>Consultar</Button>
+            </div>
 
+            <div>
+
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="Fab">
-        <Fab style={{color: 'white',  backgroundColor: "#009688"}} aria-label="add">
-          <AddIcon />
-        </Fab>
-      </div>
+        <div className="Fab">
+          <Fab onClick={this.handleOpenDialogRegisterSorteo} style={{color: 'white',  backgroundColor: "#009688"}} aria-label="add">
+            <AddIcon />
+          </Fab>
+        </div>
 
-    </div>
-  );
+        <Dialog open={this.state.openRegisterSorteo} onClose={this.handleCloseDialogRegisterSorteo} aria-labelledby="form-dialog-title">
+          <RegisterSorteo parentCallback={this.handleCloseDialogRegisterSorteo} />
+        </Dialog>
+
+        
+        <Dialog open={this.state.openCreateSorteo} onClose={this.handleCloseDialogCreateSorteo} aria-labelledby="form-dialog-title">
+          <CreateSorteo object={this.state.currentSelectedSorteo} parentCallback={this.handleCloseDialogCreateSorteo}/>
+        </Dialog>
+
+        <Dialog open={this.state.openAccountMoney} onClose={this.handleCloseDialogAccountMoney} aria-labelledby="form-dialog-title">
+          <AccountMoney parentCallback={this.handleCloseDialogAccountMoney}/>
+        </Dialog>
+
+      </div>
+    )
+  }
 }
 
 export default App;

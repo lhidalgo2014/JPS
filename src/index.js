@@ -1,17 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
-// import AccountMoney from './components/accountMoney/AccountMoney';
-// import RegisterSorteo from './components/registerSorteo/RegisterSorteo';
-import Search from './components/search/Search';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <AccountMoney /> */}
-    {/* <RegisterSorteo /> */}
-    <Search />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

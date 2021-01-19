@@ -27,8 +27,8 @@ class RegisterSorteo extends React.Component {
         this.setState({sorteo: event.target.value})
     }
 
-    selectDate = (date) => {
-        this.setState({date: date})
+    selectDate = (selectedDate) => {
+        this.setState({date: selectedDate})
     }
 
     handleKeyDown = (event) => {
@@ -51,11 +51,17 @@ class RegisterSorteo extends React.Component {
         this.setState({snackbarState: false})
     }
 
-    save = () => {
+    save = (event) => {
         if(registerSorteo(this.state.sorteo, this.state.prizeList, this.state.date)) {
             this.setState({prizeList: []})
             this.showSnackbar("Sorteo registrado correctamente")
+            this.close(event)
         } else this.showSnackbar("Error al registrar sorteo")
+    }
+
+    close = (event) => {
+        this.props.parentCallback();
+        event.preventDefault();
     }
 
     render() {
@@ -64,7 +70,7 @@ class RegisterSorteo extends React.Component {
                 <div className="Top-bar Top-bar-content">
                     <h1 className="Text-tittle">Nuevo sorteo</h1>
 
-                    <IconButton style={{marginRight:10}} aria-label="delete">
+                    <IconButton onClick={this.close} style={{marginRight:10}} aria-label="delete">
                         <CloseIcon />
                     </IconButton>
                 </div>
@@ -116,10 +122,16 @@ class RegisterSorteo extends React.Component {
                         ))
                     }
                 </Grid>
-                <div className="Bottom-container">
-                    <TextField onKeyDown={this.handleKeyDown} style={{width: 190, marginRight: 20}} size="small" label="Monto" variant="filled" />
-                    <Button className="Button" onClick={this.save} variant="contained">Guardar</Button>
-                </div>
+
+                <Grid container direction="row" justify="space-evenly" alignItems="center">
+                    <Grid style={{textAlign:'center'}} item xs={8}>
+                        <TextField onKeyDown={this.handleKeyDown} size="small" label="Monto" variant="filled" />
+                    </Grid>
+
+                    <Grid style={{textAlign:'center'}} item xs={4}>
+                        <Button style={{width:'100px'}} className="Button" onClick={this.save} variant="contained">Guardar</Button>
+                    </Grid>
+                </Grid>
 
                 <Snackbar
                     anchorOrigin={{
