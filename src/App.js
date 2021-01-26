@@ -4,6 +4,7 @@ import { transactAccountMoney, registerSorteo, getSorteos, createSorteo } from '
 import AccountMoney from './components/accountMoney/AccountMoney';
 import RegisterSorteo from './components/registerSorteo/RegisterSorteo';
 import CreateSorteo from './components/createSorteo/CreateSorteo';
+import QueryPrize from './components/queryPrize/QueryPrize';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -113,7 +114,7 @@ class App extends React.Component {
             </div>
 
             <div>
-
+              <QueryPrize />
             </div>
           </div>
         </div>
@@ -136,6 +137,8 @@ class App extends React.Component {
         <Dialog open={this.state.openAccountMoney} onClose={this.handleCloseDialogAccountMoney} aria-labelledby="form-dialog-title">
           <AccountMoney parentCallback={this.handleCloseDialogAccountMoney}/>
         </Dialog>
+
+        
 
       </div>
     )
