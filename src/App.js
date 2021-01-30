@@ -5,6 +5,7 @@ import AccountMoney from './components/accountMoney/AccountMoney';
 import RegisterSorteo from './components/registerSorteo/RegisterSorteo';
 import CreateSorteo from './components/createSorteo/CreateSorteo';
 import QueryPrize from './components/queryPrize/QueryPrize';
+import Pay from './components/Pay';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -26,7 +27,9 @@ class App extends React.Component {
   state = {
     openRegisterSorteo: false,
     openCreateSorteo: false,
+    openQueryPrize: false,
     openAccountMoney: false,
+    openPay: true,
     currentSelectedSorteo: {
       type: "tipo",
       date: "fecha",
@@ -58,9 +61,30 @@ class App extends React.Component {
     this.setState({openCreateSorteo: false})
   }
 
+  handleOpenDialogQueryPrize = () => {
+    this.setState({openQueryPrize: true})
+  }
+
+  handleCloseDialogQueryPrize = () => {
+    this.setState({openQueryPrize: false})
+  }
+
+  handleOpenDialogPay = () => {
+    this.setState({openPay: true})
+  }
+
+  handleCloseDialogPay = () => {
+    this.setState({openPay: false})
+  }
+
   changeCurrentSorteo = (data) => {
-  
     this.setState({currentSelectedSorteo: data})
+  }
+
+  paySorteo = (event, data) => {
+    console.log("main: " + data)
+    this.handleCloseDialogQueryPrize()
+    this.handleOpenDialogPay()
   }
 
   render () {
@@ -110,11 +134,7 @@ class App extends React.Component {
 
           <div className="Container-right">
             <div className="Top-bar-right">
-              <Button>Consultar</Button>
-            </div>
-
-            <div>
-              <QueryPrize />
+              <Button onClick={this.handleOpenDialogQueryPrize}>Consultar</Button>
             </div>
           </div>
         </div>
@@ -125,11 +145,18 @@ class App extends React.Component {
           </Fab>
         </div>
 
+        <Dialog maxWidth='900' open={this.state.openQueryPrize} onClose={this.handleCloseDialogQueryPrize} aria-labelledby="form-dialog-title">
+          <QueryPrize closeComponent={this.handleCloseDialogQueryPrize} parentCallback={this.paySorteo} />
+        </Dialog>
+
         <Dialog open={this.state.openRegisterSorteo} onClose={this.handleCloseDialogRegisterSorteo} aria-labelledby="form-dialog-title">
           <RegisterSorteo parentCallback={this.handleCloseDialogRegisterSorteo} />
         </Dialog>
 
-        
+        <Dialog maxWidth='800' open={this.state.openPay} onClose={this.handleCloseDialogPay} aria-labelledby="form-dialog-title">
+          <Pay closeComponent={this.handleCloseDialogPay} />
+        </Dialog>
+
         <Dialog open={this.state.openCreateSorteo} onClose={this.handleCloseDialogCreateSorteo} aria-labelledby="form-dialog-title">
           <CreateSorteo object={this.state.currentSelectedSorteo} parentCallback={this.handleCloseDialogCreateSorteo}/>
         </Dialog>
@@ -137,9 +164,6 @@ class App extends React.Component {
         <Dialog open={this.state.openAccountMoney} onClose={this.handleCloseDialogAccountMoney} aria-labelledby="form-dialog-title">
           <AccountMoney parentCallback={this.handleCloseDialogAccountMoney}/>
         </Dialog>
-
-        
-
       </div>
     )
   }

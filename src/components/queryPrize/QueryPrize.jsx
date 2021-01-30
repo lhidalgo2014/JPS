@@ -104,6 +104,11 @@ const LotChanComponent = (props) => {
         setBillsNumber(event.target.value)
     }
 
+    const close = (event) => {
+        props.parentCallback(event, sorteoNumber);
+        event.preventDefault();
+    }
+
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
@@ -141,7 +146,7 @@ const LotChanComponent = (props) => {
 
                 <Grid container direction="row" justify="flex-end" item xs={12}>
                     {showResult ? 
-                        <Button variant="contained" size="medium" color="primary" className={classes.margin}>
+                        <Button onClick={close} variant="contained" size="medium" color="primary" className={classes.margin}>
                             Pagar
                         </Button> :
                         null
@@ -194,7 +199,7 @@ const LottoComponent = (props) => {
     }
 
     const close = (event) => {
-        props.parentCallback(event, "some data");
+        props.parentCallback(event, sorteoNumber);
         event.preventDefault();
     }
 
@@ -241,8 +246,8 @@ const LottoComponent = (props) => {
 
                 <Grid container direction="row" justify="flex-end" item xs={12}>
                     <Button onClick={close} variant="contained" size="medium" color="primary" className={classes.margin}>
-                            Pagar
-                        </Button>
+                        Pagar
+                    </Button>
                 </Grid>
             </Grid>
         </div>
@@ -262,8 +267,19 @@ class QueryPrize extends React.Component {
         this.setState({tabValue: newValue})
     }
 
+    payLotCha = (event, data) => {
+        this.props.parentCallback(event, data);
+        event.preventDefault();
+    }
+
     payLotto = (event, data) => {
-        console.log(data)
+        this.props.parentCallback(event, data);
+        event.preventDefault();
+    }
+
+    close = (event, data) => {
+        this.props.closeComponent(event, data);
+        event.preventDefault();
     }
 
     render() {
@@ -293,7 +309,7 @@ class QueryPrize extends React.Component {
                     </Grid>
 
                     <TabPanel value={this.state.tabValue} index={0}>
-                        <LotChanComponent sorteoType={this.state.sorteoType}/>
+                        <LotChanComponent parentCallback={this.payLotCha} sorteoType={this.state.sorteoType}/>
                     </TabPanel>
                     <TabPanel value={this.state.tabValue} index={1}>
                         <LottoComponent parentCallback={this.payLotto} sorteoType={this.state.sorteoType}/>
