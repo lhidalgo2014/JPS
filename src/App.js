@@ -6,6 +6,8 @@ import RegisterSorteo from './components/registerSorteo/RegisterSorteo';
 import CreateSorteo from './components/createSorteo/CreateSorteo';
 import QueryPrize from './components/queryPrize/QueryPrize';
 import Pay from './components/Pay';
+import RewardPlan from './components/RewardPlan';
+import RewardPlanDetail from './components/RewardPlanDetail';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -29,7 +31,9 @@ class App extends React.Component {
     openCreateSorteo: false,
     openQueryPrize: false,
     openAccountMoney: false,
-    openPay: true,
+    openPay: false,
+    paySorteoData: null,
+    plan: [],
     currentSelectedSorteo: {
       type: "tipo",
       date: "fecha",
@@ -82,7 +86,7 @@ class App extends React.Component {
   }
 
   paySorteo = (event, data) => {
-    console.log("main: " + data)
+    this.setState({paySorteoData: data})
     this.handleCloseDialogQueryPrize()
     this.handleOpenDialogPay()
   }
@@ -136,6 +140,9 @@ class App extends React.Component {
             <div className="Top-bar-right">
               <Button onClick={this.handleOpenDialogQueryPrize}>Consultar</Button>
             </div>
+              <RewardPlan plan={this.state.plan}/>
+              <br/>
+              <RewardPlanDetail />
           </div>
         </div>
 
@@ -154,7 +161,7 @@ class App extends React.Component {
         </Dialog>
 
         <Dialog maxWidth='800' open={this.state.openPay} onClose={this.handleCloseDialogPay} aria-labelledby="form-dialog-title">
-          <Pay closeComponent={this.handleCloseDialogPay} />
+          <Pay sorteoData={this.state.paySorteoData} closeComponent={this.handleCloseDialogPay} />
         </Dialog>
 
         <Dialog open={this.state.openCreateSorteo} onClose={this.handleCloseDialogCreateSorteo} aria-labelledby="form-dialog-title">

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { db } from '../firebase'
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -37,10 +38,22 @@ const theme = makeStyles({
 
 const Pay = (props) => {
     const classes = theme()
+    const [playerID, setPlayerID] = useState()
 
     const close = (event) => {
         props.closeComponent(event);
         event.preventDefault();
+    }
+
+    const updatePlayerID = (event) => {
+        setPlayerID(event.target.value)
+    }
+
+    const makePayment = (event) => {
+        props.sorteoData.detail.idPlayer = playerID;
+        props.sorteoData.date = new Date();
+        const data = props.sorteoData
+        db.collection("payment").add({data}).then(() => { close(event) });
     }
 
     return (
@@ -66,7 +79,7 @@ const Pay = (props) => {
                 alignItems="center"
             >
                 <Grid container style={{marginLeft: 24, marginTop: 24}} justify="flex-start" item xs={12}>
-                    <TextField label="Cédula del ganador" variant="filled" />
+                    <TextField onChange={updatePlayerID} label="Cédula del ganador" variant="filled" />
                 </Grid>
             </Grid>
 
@@ -91,7 +104,7 @@ const Pay = (props) => {
                 </Grid>
 
                 <Grid container style={{marginRight: 24}} direction="row" justify="flex-end" alignItems="center" item xs={12}>
-                    <Button color="primary">PAGAR</Button>
+                    <Button onClick={makePayment} color="primary">PAGAR</Button>
                 </Grid>
             </Grid>
         </div>

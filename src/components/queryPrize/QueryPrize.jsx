@@ -105,7 +105,17 @@ const LotChanComponent = (props) => {
     }
 
     const close = (event) => {
-        props.parentCallback(event, sorteoNumber);
+        const data = {
+            sorteoNumber: sorteoNumber,
+            sorteoType: props.sorteoType,
+            total: prize,
+            detail: {
+                winnerNumber: Number(winnerNumber),
+                sorteoSerie: Number(sorteoSerie),
+                billsNumber: Number(billsNumber)
+            }
+        }
+        props.parentCallback(event, data);
         event.preventDefault();
     }
 
