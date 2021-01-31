@@ -70,7 +70,8 @@ const LotChanComponent = (props) => {
         db.collection("sorteo").doc(sorteoNumber)
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.data()
-                if(data !== 'undefined') {
+                if(typeof data !== 'undefined') {
+                    console.log(data)
                     hasWon(data)
                 } else setResult(false)
             })

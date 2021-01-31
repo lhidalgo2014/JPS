@@ -8,6 +8,7 @@ import QueryPrize from './components/queryPrize/QueryPrize';
 import Pay from './components/Pay';
 import RewardPlan from './components/RewardPlan';
 import RewardPlanDetail from './components/RewardPlanDetail';
+import QueryPaymentHistory from './components/QueryPaymentHistory';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -140,9 +141,11 @@ class App extends React.Component {
             <div className="Top-bar-right">
               <Button onClick={this.handleOpenDialogQueryPrize}>Consultar</Button>
             </div>
-              <RewardPlan plan={this.state.plan}/>
+              {/* <RewardPlan plan={this.state.plan}/>
               <br/>
               <RewardPlanDetail />
+              <br/> */}
+              <QueryPaymentHistory />
           </div>
         </div>
 

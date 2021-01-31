@@ -53,7 +53,7 @@ const Pay = (props) => {
         props.sorteoData.detail.idPlayer = playerID;
         props.sorteoData.date = new Date();
         const data = props.sorteoData
-        db.collection("payment").add({data}).then(() => { close(event) });
+        db.collection("payment").add(data).then(() => { close(event) });
     }
 
     return (
