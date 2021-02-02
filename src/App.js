@@ -7,9 +7,11 @@ import CreateSorteo from './components/createSorteo/CreateSorteo';
 import QueryPrize from './components/queryPrize/QueryPrize';
 import Pay from './components/Pay';
 import RewardPlan from './components/RewardPlan';
+import WinnerNumbers from './components/WinnerNumbers';
 import RewardPlanDetail from './components/RewardPlanDetail';
 import QueryPaymentHistory from './components/QueryPaymentHistory';
 import MostPayNumber from './components/MostPayNumber';
+import WinProbabilityNumber from './components/WinProbabilityNumber';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -134,20 +136,37 @@ class App extends React.Component {
         </Grid>
 
         <div className="Container">
-          <div className="Container-left">
-            a
-          </div>
 
-          <div className="Container-right">
+          <div >
             <div className="Top-bar-right">
               <Button onClick={this.handleOpenDialogQueryPrize}>Consultar</Button>
             </div>
-              {/* <RewardPlan plan={this.state.plan}/>
-              <br/>
-              <RewardPlanDetail />
-              <br/> */}
-              {/* <QueryPaymentHistory /> */}
-              <MostPayNumber />
+
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <QueryPaymentHistory />
+              </Grid>
+
+              <Grid item xs={6}>
+                <RewardPlan plan={this.state.plan}/>
+              </Grid>
+
+              <Grid item xs={6}>
+                <RewardPlanDetail />
+              </Grid>
+
+              <Grid item xs={6}>
+                <MostPayNumber />
+              </Grid>
+
+              <Grid item xs={6}>
+                <WinProbabilityNumber />
+              </Grid>
+
+              <Grid item xs={12}>
+                <WinnerNumbers/>
+              </Grid>
+            </Grid>
           </div>
         </div>
 

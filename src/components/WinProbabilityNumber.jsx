@@ -18,8 +18,8 @@ import ReplayIcon from '@material-ui/icons/Replay';
 
 const columns = [
     { id: 'number', label: 'Número', minWidth: 100 },
-    { id: 'amount', label: 'Cantidad', minWidth: 100 },
-  ];
+    { id: 'probility', label: 'Probabilidad', minWidth: 100 },
+];
   
 const useStyles = makeStyles({
     root: {
@@ -50,7 +50,7 @@ const sorteoTypes = [
     }
   ];
 
-const MostPayNumber = (props) => {
+const WinProbabilityNumber = (props) => {
     const classes = useStyles();
     const [data, setData] = useState([]);
     const [rows, setRows] = useState([]);
@@ -107,6 +107,7 @@ const MostPayNumber = (props) => {
     const updateRowsData = () => {
         var newRows = {}
         var newData = []
+        var totalSorteo = 0
         data.forEach((row) => {
             var add = true
 
@@ -115,12 +116,13 @@ const MostPayNumber = (props) => {
             }
             
             if(add) {
+                totalSorteo += 1
                 newRows[row.number] = (newRows[row.number]+1) || 1 ;
             }
         })
 
         Object.entries(newRows).forEach(([key, value]) => {
-            newData.push({number: key, amount: value});
+            newData.push({number: key, probility: value / totalSorteo});
         });
 
         setRows(newData)
@@ -207,4 +209,4 @@ const MostPayNumber = (props) => {
     )
 }
 
-export default MostPayNumber;
+export default WinProbabilityNumber;
