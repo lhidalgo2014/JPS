@@ -9,6 +9,7 @@ import Pay from './components/Pay';
 import RewardPlan from './components/RewardPlan';
 import RewardPlanDetail from './components/RewardPlanDetail';
 import QueryPaymentHistory from './components/QueryPaymentHistory';
+import MostPayNumber from './components/MostPayNumber';
 import Button from '@material-ui/core/Button';
 import Search from './components/search/Search';
 import Grid from '@material-ui/core/Grid';
@@ -145,7 +146,8 @@ class App extends React.Component {
               <br/>
               <RewardPlanDetail />
               <br/> */}
-              <QueryPaymentHistory />
+              {/* <QueryPaymentHistory /> */}
+              <MostPayNumber />
           </div>
         </div>
 
