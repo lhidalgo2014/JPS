@@ -18,6 +18,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import IconButton from '@material-ui/core/IconButton';
 import ReplayIcon from '@material-ui/icons/Replay';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 const columns = [
     { id: '#', label: '#', minWidth: 170 },
@@ -78,10 +80,21 @@ const QueryPaymentHistory = (props) => {
     const [startDate, setStartDate] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
     const [playerID, setPlayerID] = React.useState(null);
+    const [snackbarState, setSnackbarState] = React.useState(false);
+    const [snackbarMessage, setSnackbarMessage] = React.useState(null);
 
     useEffect(() => {
         loadData();
     }, []);
+
+    const showSnackbar = (message) => {
+        setSnackbarState(true)
+        setSnackbarMessage(message)
+    }
+
+    const closeSnackbar = () => {
+        setSnackbarState(false)
+    }
 
     const createData = (payment) => {
         return { 
@@ -103,7 +116,9 @@ const QueryPaymentHistory = (props) => {
     };
 
     const handleEndDateChange = (date) => {
-        setEndDate(date);
+        if(date <= startDate || !startDate) {
+            showSnackbar('Rango de fecha incorrecto')
+        } else setEndDate(date);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -288,6 +303,23 @@ const QueryPaymentHistory = (props) => {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </Paper>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={snackbarState}
+                autoHideDuration={1000}
+                onClose={closeSnackbar}
+                message={snackbarMessage}
+                action={
+                <React.Fragment>
+                    <IconButton size="small" aria-label="close" color="inherit" onClick={closeSnackbar}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </React.Fragment>
+                }
+            />
         </div>
     )
 }

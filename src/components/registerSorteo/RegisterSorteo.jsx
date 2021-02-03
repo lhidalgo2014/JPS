@@ -19,8 +19,18 @@ class RegisterSorteo extends React.Component {
         sorteo: "Chances",
         prizeList: [],
         date: null,
+        ticketAmount: 5,
+        tickectCost: 1000,
         snackbarState: false,
         snackbarMessage: ""
+    }
+
+    handleChangeTicketAmount = (event) => {
+        this.setState({ticketAmount: event.target.value})
+    }
+
+    handleChangeTickectCost = (event) => {
+        this.setState({tickectCost: event.target.value})
     }
 
     handleChangeSorteo = (event) => {
@@ -52,11 +62,14 @@ class RegisterSorteo extends React.Component {
     }
 
     save = (event) => {
-        if(registerSorteo(this.state.sorteo, this.state.prizeList.map(x=>+x), this.state.date)) {
-            this.setState({prizeList: []})
-            this.showSnackbar("Sorteo registrado correctamente")
-            this.close(event)
-        } else this.showSnackbar("Error al registrar sorteo")
+        if(this.state.date !== null && this.state.prizeList.length > 0) {
+            if(registerSorteo(this.state.sorteo, this.state.prizeList.map(x=>+x), this.state.date, this.state.ticketAmount, this.state.tickectCost)) {
+                this.setState({prizeList: []})
+                this.showSnackbar("Sorteo registrado correctamente")
+                this.close(event)
+            } else this.showSnackbar("Error al registrar sorteo")
+        }
+        else this.showSnackbar('Datos incompletos')
     }
 
     close = (event) => {
@@ -108,6 +121,16 @@ class RegisterSorteo extends React.Component {
                         </MuiPickersUtilsProvider>
                     </Grid>
                 </Grid>
+                <br/>
+                <Grid container justify="space-evenly">
+                    <Grid item xs={4}>
+                        <TextField onChange={this.handleChangeTicketAmount} value={this.state.ticketAmount} size="small" label="Cantidad billetes" variant="filled" />
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <TextField onChange={this.handleChangeTickectCost} value={this.state.tickectCost} size="small" label="Costo billete" variant="filled" />
+                    </Grid>
+                </Grid>
 
                 <Grid className="Autoscroll" style={{marginTop: 40, height: 240}} >
                     {
@@ -115,8 +138,8 @@ class RegisterSorteo extends React.Component {
                             <Grid style={{marginTop: 10}} item xs={12} container justify="space-around" direction="row">
                                 <p>{index + 1}</p>
                                 <div className="Input-box">{number}</div>
-                                <IconButton>
-                                    <DeleteIcon onClick={() => this.removePrize(number)}/>
+                                <IconButton onClick={() => this.removePrize(number)}>
+                                    <DeleteIcon />
                                 </IconButton>
                             </Grid>
                         ))

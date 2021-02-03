@@ -212,7 +212,15 @@ const LottoComponent = (props) => {
     }
 
     const close = (event) => {
-        props.parentCallback(event, sorteoNumber);
+        const data = {
+            sorteoNumber: sorteoNumber,
+            sorteoType: props.sorteoType,
+            total: prize,
+            detail: {
+                winnerNumber: numberList
+            }
+        }
+        props.parentCallback(event, data);
         event.preventDefault();
     }
 
@@ -273,11 +281,12 @@ const LottoComponent = (props) => {
 class QueryPrize extends React.Component {
     state = {
         tabValue: 0,
-        sorteoType: 'LoteriaChances'
+        sorteoType: 'Chances'
     }
 
     handleTabChange = (event, newValue) => {
-        if(newValue === 0) this.setState({sorteoType: 'LoteriaChances'})
+        if(newValue === 0) this.setState({sorteoType: 'Chances'})
+        else if(newValue === 1) this.setState({sorteoType: 'Lotería'})
         else this.setState({sorteoType: 'Lotto'})
         this.setState({tabValue: newValue})
     }
@@ -311,7 +320,8 @@ class QueryPrize extends React.Component {
 
                         <Grid style={{textAlign:"center"}} className="Center" item xs={6}>
                             <Tabs indicatorColor="primary" textColor="primary" centered value={this.state.tabValue} onChange={this.handleTabChange} aria-label="simple tabs example">
-                                <Tab label="Lotería | Chances"/>
+                                <Tab label="Chances"/>
+                                <Tab label="Lotería"/>
                                 <Tab label="Lotto"/>
                             </Tabs>
                         </Grid>
@@ -327,6 +337,9 @@ class QueryPrize extends React.Component {
                         <LotChanComponent parentCallback={this.payLotCha} sorteoType={this.state.sorteoType}/>
                     </TabPanel>
                     <TabPanel value={this.state.tabValue} index={1}>
+                        <LotChanComponent parentCallback={this.payLotCha} sorteoType={this.state.sorteoType}/>
+                    </TabPanel>
+                    <TabPanel value={this.state.tabValue} index={2}>
                         <LottoComponent parentCallback={this.payLotto} sorteoType={this.state.sorteoType}/>
                     </TabPanel>
                 </div>

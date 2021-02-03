@@ -88,7 +88,7 @@ class CreateSorteo extends React.Component {
     }
 
     getFormattedDate(date) {
-        return new Date(date.seconds).toDateString();
+        return new Date(date.seconds * 1000).toDateString();
     }
 
     getTotal() {

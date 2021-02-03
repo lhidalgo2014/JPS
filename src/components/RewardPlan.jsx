@@ -14,7 +14,9 @@ import Typography from '@material-ui/core/Typography';
 const columns = [
     { id: '#', label: '#', minWidth: 170 },
     { id: 'tipo', label: 'Tipo', minWidth: 100 },
-    { id: 'fecha', label: 'Fecha', minWidth: 100 }
+    { id: 'fecha', label: 'Fecha', minWidth: 100 },
+    { id: 'ticketAmount', label: 'Cantidad billetes', minWidth: 100 },
+    { id: 'tickectCost', label: 'Costo billetes', minWidth: 100 },
   ];
   
 const useStyles = makeStyles({
@@ -49,7 +51,7 @@ const RewardPlan = (props) => {
     }, []);
 
     const createData = (sorteo) => {
-        return { '#': sorteo.id, tipo: sorteo.type, fecha: new Date(sorteo.date.seconds * 1000).toDateString() };
+        return { '#': sorteo.id, tipo: sorteo.type, fecha: new Date(sorteo.date.seconds * 1000).toDateString(), tickectCost: sorteo.tickectCost, ticketAmount: sorteo.ticketAmount };
     }
 
     const handleChangePage = (event, newPage) => {

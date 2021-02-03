@@ -18,13 +18,15 @@ export async function transactAccountMoney(account, transaction, amount) {
 }
 
 // Register component
-export async function registerSorteo(type, prizeList, date) {
+export async function registerSorteo(type, prizeList, date, ticketAmount, tickectCost) {
   var collRef = db.collection("sorteo")
   await collRef.add({
     "type": type,
     "state": "sorteando",
     "date": date,
-    "prizeList": prizeList
+    "prizeList": prizeList,
+    "ticketAmount": ticketAmount,
+    "tickectCost": tickectCost,
   }).then(() => {
     return "Actualizado correctamente"
   }).catch((err) => {

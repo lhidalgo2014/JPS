@@ -75,7 +75,6 @@ class Search extends React.Component {
         } else return ""
     }
 
-
     render() {
         return (
             <div className="Search">
