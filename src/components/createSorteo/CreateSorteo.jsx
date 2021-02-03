@@ -44,8 +44,8 @@ class CreateSorteo extends React.Component {
         event.preventDefault();
     }
 
-    save = (event) => {
-        var winnerNumber = [
+    getLotChancesWinnerNumbers = (event) => {
+        return [
             {
                 number: this.getRandomInt(100),
                 serie: this.getRandomInt(1000)
@@ -59,6 +59,26 @@ class CreateSorteo extends React.Component {
                 serie: this.getRandomInt(1000)
             }
         ]
+    }
+
+    getLottoWinnerNumbers = (event) => {
+        return [
+            {number: this.getRandomInt(40)},
+            {number: this.getRandomInt(40)},
+            {number: this.getRandomInt(40)},
+            {number: this.getRandomInt(40)},
+            {number: this.getRandomInt(40)}
+        ]
+    }
+
+    save = (event) => {
+        var winnerNumber = []
+        if(this.state.prizeObject.type === 'Lotto') {
+            winnerNumber = this.getLottoWinnerNumbers()
+        } else {
+            winnerNumber = this.getLotChancesWinnerNumbers()
+        }
+
         console.log("Winner number")
         console.log(winnerNumber)
         if(createSorteo(this.state.prizeObject.id, winnerNumber)) {
@@ -138,8 +158,8 @@ class CreateSorteo extends React.Component {
                 </Grid>
 
                 <div className="Bottom-container">
-                    <Button className="Button" style={{marginRight:10}} onClick={this.close}>Cancelar</Button>
-                    <Button className="Button" onClick={this.save}>Confirmar</Button>
+                    <Button style={{marginRight:10}} onClick={this.close}>Cancelar</Button>
+                    <Button onClick={this.save}>Confirmar</Button>
                 </div>
 
                 <Snackbar

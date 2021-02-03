@@ -15,8 +15,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 class RegisterSorteo extends React.Component {
     state = {
-        sorteoTypeList: ["chances", "loteria", "lotto"],
-        sorteo: "chances",
+        sorteoTypeList: ["Chances", "Lotería", "Lotto"],
+        sorteo: "Chances",
         prizeList: [],
         date: null,
         snackbarState: false,
@@ -52,7 +52,7 @@ class RegisterSorteo extends React.Component {
     }
 
     save = (event) => {
-        if(registerSorteo(this.state.sorteo, this.state.prizeList, this.state.date)) {
+        if(registerSorteo(this.state.sorteo, this.state.prizeList.map(x=>+x), this.state.date)) {
             this.setState({prizeList: []})
             this.showSnackbar("Sorteo registrado correctamente")
             this.close(event)
@@ -129,7 +129,7 @@ class RegisterSorteo extends React.Component {
                     </Grid>
 
                     <Grid style={{textAlign:'center'}} item xs={4}>
-                        <Button style={{width:'100px'}} className="Button" onClick={this.save} variant="contained">Guardar</Button>
+                        <Button style={{width:'100px'}} onClick={this.save}>Guardar</Button>
                     </Grid>
                 </Grid>
 

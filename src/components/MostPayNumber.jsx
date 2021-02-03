@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ReplayIcon from '@material-ui/icons/Replay';
+import Typography from '@material-ui/core/Typography';
 
 const columns = [
     { id: 'number', label: 'Número', minWidth: 100 },
@@ -28,6 +29,17 @@ const useStyles = makeStyles({
     
     container: {
         maxHeight: 440,
+    },
+
+    header: {
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 500,
+        fontSize: 20,
+        letterSpacing: '0.00089285em',
+        textTransform: 'uppercase',
+
+        color: '#697288',
     },
 });
 
@@ -128,6 +140,9 @@ const MostPayNumber = (props) => {
 
     return (
         <div>
+            <Typography className={classes.header} variant="h5" component="h2">
+                Números más pagados
+            </Typography>
             <Grid container direction="row" justify="flex-start" alignItems="center">
                 <Grid item xs={2}>
                     <TextField

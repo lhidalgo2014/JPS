@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const columns = [
     { id: 'pos', label: '#', minWidth: 100 },
@@ -27,6 +28,17 @@ const useStyles = makeStyles({
     
     container: {
         maxHeight: 440,
+    },
+
+    header: {
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 500,
+        fontSize: 20,
+        letterSpacing: '0.00089285em',
+        textTransform: 'uppercase',
+
+        color: '#697288',
     },
 });
 
@@ -59,7 +71,6 @@ const WinnerNumbers = (props) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
     
     const loadData = () => {
         db.collection('sorteo').doc(sorteoID)
@@ -72,65 +83,70 @@ const WinnerNumbers = (props) => {
     }
 
     return (
-        <Grid container>
-            <Grid xs={12} container direction="row" justify="flex-start" alignItems="center">
-                <Grid xs={2}>
-                    <TextField value={sorteoID} label='Sorteo ID' onChange={handleChangeSorteoID} variant="filled" />
-                </Grid>
+        <div>
+            <Typography className={classes.header} variant="h5" component="h2">
+                Números ganadores
+            </Typography>
+            <Grid container>
+                <Grid xs={12} container direction="row" justify="flex-start" alignItems="center">
+                    <Grid xs={2}>
+                        <TextField value={sorteoID} label='Sorteo ID' onChange={handleChangeSorteoID} variant="filled" />
+                    </Grid>
 
-                <Grid xs={2}>
-                    <Button onClick={loadData} variant="contained" color="primary">
-                        Filtrar
-                    </Button>
+                    <Grid xs={2}>
+                        <Button onClick={loadData} variant="contained" color="primary">
+                            Filtrar
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper className={classes.root}>
+                        <TableContainer className={classes.container}>
+                            <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </Paper>
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <Paper className={classes.root}>
-                    <TableContainer className={classes.container}>
-                        <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
-                </Paper>
-            </Grid>
-        </Grid>
+        </div>
         
     )
 }

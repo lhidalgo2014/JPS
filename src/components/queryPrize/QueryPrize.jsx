@@ -64,9 +64,7 @@ const LotChanComponent = (props) => {
     const [winnerNumber, setWinnerNumber] = useState();
     const [billsNumber, setBillsNumber] = useState();
 
-    // 2CllYdh393AKsi3D50Yx
     const query = () => {
-        console.log("SEARCHING")
         db.collection("sorteo").doc(sorteoNumber)
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.data()
@@ -122,7 +120,7 @@ const LotChanComponent = (props) => {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
                 <Grid container direction="row" justify="flex-start" item xs={12}>
                     <Button onClick={query} startIcon={<SearchIcon />} size="medium" color="primary" className={classes.margin}>
                         Buscar
@@ -181,22 +179,26 @@ const LottoComponent = (props) => {
         db.collection("sorteo").doc(sorteoNumber)
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.data(0, 0, 0, 0, 0)
-                if(data !== 'undefined') {
+                if(typeof data !== 'undefined') {
                     hasWon(data)
                 } else setResult(false)
             })
     }
 
     const hasWon = (data) => {
-        // data.winnerNumber.every((prize, index) => {
-        //     if(prize.number === Number(winnerNumber) && prize.serie === Number(sorteoSerie)) {
-        //         setMessage('Felicidades')
-        //         setPrize(data.prizeList[index] * billsNumber)
-        //         setResult(true)
-        //         return false
-        //     }
-        //     return true
-        // })
+        var won = true
+        var possibleNumberWinner = numberList.map(x=>+x)
+        data.winnerNumber.forEach(prize => {
+            if(!(possibleNumberWinner.includes(prize.number))) {
+                won = false
+            }
+        });
+
+        if(won) {
+            setMessage('Felicidades')
+            setPrize(data.prizeList[0])
+            setResult(true)
+        }
     }
 
     const updateSorteoNumber = (event) => {
@@ -216,7 +218,7 @@ const LottoComponent = (props) => {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3} container direction="row" justify="space-between" alignItems="center">
+            <Grid container spacing={1} container direction="row" justify="space-between" alignItems="center">
                 <Grid container direction="row" justify="flex-start" item xs={12}>
                     <Button onClick={query} startIcon={<SearchIcon />} size="medium" color="primary" className={classes.margin}>
                         Buscar
@@ -256,9 +258,12 @@ const LottoComponent = (props) => {
                 </Grid>
 
                 <Grid container direction="row" justify="flex-end" item xs={12}>
-                    <Button onClick={close} variant="contained" size="medium" color="primary" className={classes.margin}>
-                        Pagar
-                    </Button>
+                    {showResult ? 
+                        <Button onClick={close} variant="contained" size="medium" color="primary" className={classes.margin}>
+                            Pagar
+                        </Button> :
+                        null
+                    }
                 </Grid>
             </Grid>
         </div>
@@ -272,7 +277,6 @@ class QueryPrize extends React.Component {
     }
 
     handleTabChange = (event, newValue) => {
-        console.log("Index: " + newValue);
         if(newValue === 0) this.setState({sorteoType: 'LoteriaChances'})
         else this.setState({sorteoType: 'Lotto'})
         this.setState({tabValue: newValue})
